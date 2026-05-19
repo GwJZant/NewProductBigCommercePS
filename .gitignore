@@ -1,6 +1,4 @@
 config.json
-Input/BigCommerceProducts.txt
-Input/data.csv
-Input/dataSQL.csv
-Input/products.txt
-/Output
+/Output/*.csv
+!Output/NewProductsSample.csv
+!Output/ProductsNotInBigCommerceSample.csv
