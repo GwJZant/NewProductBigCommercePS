@@ -91,8 +91,120 @@ do {
 			$FileToProcess = $DataSQL
 		}
 		"4" {
-			Write-Host "Not built yet."
-			Write-Host ""
+			$InputFile = "Input\BigCommerceProducts.txt"
+			$ScriptBigCommerceProducts = "Queries\BigCommerceProducts.sql"
+			$ScriptProductsNotInBC     = "Queries\ProductsNotInBigCommerce.sql"
+			
+			$ProductsNotInBigCommerce  = "Output\ProductsNotInBigCommerce_" + $timestamp + ".csv"
+			
+			if (Test-Path $InputFile) {
+				Write-Host "Reading products list from $InputFile..." -ForegroundColor Cyan
+				
+				# Clean data natively in memory: trim spaces, tabs, quotes, and remove empty rows
+				$CleanProducts = Get-Content -Path $InputFile | ForEach-Object {
+					# Strips out quotes, literal tabs, spaces, and trims ends
+					$_.Replace('"', '').Replace("`t", "").Replace(" ", "").Trim()
+				} | Where-Object { $_ -ne "" }
+				
+				Write-Host "Total products found in file: $($CleanProducts.Count)"
+				Write-Host "Fetching data from SQL Server..."
+				
+				$BatchSize   = 300
+				$MatchedSKUs = [System.Collections.Generic.List[string]]::new()
+				$BatchCount  = 0
+				
+				for ($i = 0; $i -lt $CleanProducts.Count; $i += $BatchSize) {
+					# Grab a clean array slice of up to 300 items
+					$BatchArray = $CleanProducts[$i..($i + $BatchSize - 1)] | Where-Object { $_ -ne $null }
+					
+					# Turn into a SQL-safe string format: 'prod1','prod2','prod3'
+					$ProductsParamString = ($BatchArray | ForEach-Object { "'$_'" }) -join ","
+
+					$BatchSqlParams = @{
+						ServerInstance         = $config.Celerant.ServerInstance
+						Database               = $config.Celerant.Database
+						Username               = $config.Celerant.Username
+						Password               = $config.Celerant.Password
+						InputFile              = $ScriptBigCommerceProducts
+						Variable               = @("Products=$ProductsParamString")
+						Encrypt                = "Mandatory"
+						TrustServerCertificate = $true
+					}
+					
+					# Run the command with our explicit hash table
+					$BatchResult = Invoke-Sqlcmd @BatchSqlParams
+
+					# Collect resulting StyleIDs/SKUs into our matched array list
+					if ($BatchResult) {
+						foreach ($Row in $BatchResult) {
+							# Drops values cleanly into memory (automatically avoids --- dashes or spacing issues)
+							if ($Row[0]) { $MatchedSKUs.Add("('$($Row[0])')") }
+						}
+					}
+
+					$BatchCount++
+					Write-Host "Processed batch $BatchCount..."
+				}
+				
+				if ($MatchedSKUs.Count -gt 0) {
+					Write-Host "Assembling unified SQL transaction in memory..." -ForegroundColor Cyan
+					
+					# We use a .NET StringBuilder to fast-track appending thousands of string components
+					$SqlScriptBuilder = [System.Text.StringBuilder]::new()
+
+					# Append the initial table creation configuration script block
+					[void]$SqlScriptBuilder.AppendLine("SET NOCOUNT ON;")
+					[void]$SqlScriptBuilder.AppendLine("IF OBJECT_ID('tempdb..##BigCommerceList') IS NOT NULL DROP TABLE ##BigCommerceList;")
+					[void]$SqlScriptBuilder.AppendLine("CREATE TABLE ##BigCommerceList (StyleID VARCHAR(255));")
+
+					# Dynamically loop and build all our multi-row INSERT queries straight into memory
+					for ($j = 0; $j -lt $MatchedSKUs.Count; $j += $BatchSize) {
+						$InsertSlice = $MatchedSKUs[$j..($j + $BatchSize - 1)] | Where-Object { $_ -ne $null }
+						
+						# Force clean and guarantee syntax safety ('Value') for every item
+						$ValuesString = ($InsertSlice | ForEach-Object {
+							$RawCode = $_.ToString().Replace("(", "").Replace(")", "").Replace("'", "").Trim()
+							"('$RawCode')"
+						}) -join ","
+						
+						# Append this batch line to our overall script sequence
+						[void]$SqlScriptBuilder.AppendLine("INSERT INTO ##BigCommerceList (StyleID) VALUES $ValuesString;")
+					}
+
+					# Append your final lookup query file directly to the very tail end of the transaction script
+					Write-Host "Appending final comparison query script payload..." -ForegroundColor Cyan
+					$FinalQueryText = Get-Content -Path $ScriptProductsNotInBC -Raw
+					[void]$SqlScriptBuilder.AppendLine($FinalQueryText)
+
+					# Base configuration parameters dictionary
+					$QuerySqlParams = @{
+						ServerInstance         = $config.Celerant.ServerInstance
+						Database               = $config.Celerant.Database
+						Username               = $config.Celerant.Username
+						Password               = $config.Celerant.Password
+						Query                  = $SqlScriptBuilder.ToString() # Hand over the whole unified script payload!
+						Encrypt                = "Mandatory"
+						TrustServerCertificate = $true
+						QueryTimeout           = 600                          # Gives large comparisons plenty of execution time
+					}
+
+					Write-Host "Executing transaction on SQL Server (This may take a moment)..." -ForegroundColor Yellow
+					
+					# Fire everything off at once! The table creation, population, and final SELECT all run in 1 session.
+					$FinalResults = Invoke-Sqlcmd @QuerySqlParams
+
+					# Export data objects smoothly straight to your output destination
+					if ($FinalResults) {
+						$FinalResults | Export-Csv -Path $ProductsNotInBigCommerce -NoTypeInformation -Delimiter "," -Encoding utf8
+						Write-Host "Success! Generated: $ProductsNotInBigCommerce" -ForegroundColor Green
+					} else {
+						Write-Warning "Comparison complete, but no missing products were found."
+					}
+
+				} else {
+					Write-Warning "No product codes matched your Celerant Database during processing."
+				}
+			}
 		}
 		"5" {
 			Write-Host "Exiting..."
@@ -131,7 +243,7 @@ do {
 						exit
 					}
 					
-					Write-Host "New product found. Inserting product entry then any variant entries if present."
+					# Write-Host "New product found. Inserting product entry then any variant entries if present."
 					Write-Host "Product: $Product, Name: $CleanName, Price: $($row.Price), Item Type: $($row.'Item Type')"
 					$LastProduct = $Product
 					$LastPrice = $row.Price
