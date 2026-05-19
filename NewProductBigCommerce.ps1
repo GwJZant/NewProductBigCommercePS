@@ -40,8 +40,7 @@ do {
 	
 	switch ($selection) {
 		"1" {
-			Write-Host "Not built yet."
-			Write-Host ""
+			$FileToProcess = "Input\data.csv"
 		}
 		"2" {
 			$ScriptDataCsvQuery = "Queries\dataCsvQuery.sql"
@@ -89,9 +88,6 @@ do {
 			}
 		}
 		"3" {
-			Write-Host "Not built yet."
-			Write-Host ""
-			
 			$FileToProcess = $DataSQL
 		}
 		"4" {
@@ -174,88 +170,154 @@ do {
 					} else {
 						Write-Host "Unknown Item Type. Using default values."
 					}
-				}
-				
-				if ($CleanName) {
-					# Replace &, /, -, and : with spaces or empty strings as your batch script did
-					$CleanName = $CleanName -replace '&', '' `
-											-replace '/', ' ' `
-											-replace '-', ' ' `
-											-replace ':', ' '
-				}
-				
-				# Extract initial keywords from row or fall back to the Product code
-				$SearchKeywordsList = [System.Collections.Generic.List[string]]::new()
-				
-				if (-not [string]::IsNullOrWhiteSpace($row.'Search Keywords')) {
-					# If present, we'll keep the existing keywords as our starting point
-					$ExistingKeywords = $row.'Search Keywords' -split ','
-					foreach ($Keyword in $ExistingKeywords) {
-						$TrimmedKeyword = $Keyword.Trim()
-						if (-not [string]::IsNullOrEmpty($TrimmedKeyword) -and -not $SearchKeywordsList.Contains($TrimmedKeyword)) {
-							$SearchKeywordsList.Add($TrimmedKeyword)
-						}
-					}
-				}
-
-				# Always ensure the Product code is included/prepended per your rules
-				if (-not [string]::IsNullOrWhiteSpace($row.Product)) {
-					$ProductCode = $Row.Product.Trim()
-					if (-not $SearchKeywordsList.Contains($ProductCode)) {
-						$SearchKeywordsList.Add($ProductCode)
-					}
-				}
-				
-				if ($CleanName) {
-					# Split the name by spaces to iterate over each individual word
-					$Words = $CleanName -split '\s+'
 					
-					foreach ($CleanWord in $Words) {
-						$CleanWord = $CleanWord.Trim()
-						if ([string]::IsNullOrEmpty($CleanWord)) { continue }
-
-						# If the word is "tshirt" (case-insensitive), force it to "T-Shirt"
-						if ($CleanWord -ieq "tshirt") {
-							$CleanWord = "T-Shirt"
-						}
-
-						# Append this word to our keyword collection if it isn't a duplicate
-						if (-not $SearchKeywordsList.Contains($CleanWord)) {
-							$SearchKeywordsList.Add($CleanWord)
+					if ($CleanName) {
+						# Replace &, /, -, and : with spaces or empty strings as your batch script did
+						$CleanName = $CleanName -replace '&', '' `
+												-replace '/', ' ' `
+												-replace '-', ' ' `
+												-replace ':', ' '
+					}
+					
+					# Extract initial keywords from row or fall back to the Product code
+					$SearchKeywordsList = [System.Collections.Generic.List[string]]::new()
+					
+					if (-not [string]::IsNullOrWhiteSpace($row.'Search Keywords')) {
+						# If present, we'll keep the existing keywords as our starting point
+						$ExistingKeywords = $row.'Search Keywords' -split ','
+						foreach ($Keyword in $ExistingKeywords) {
+							$TrimmedKeyword = $Keyword.Trim()
+							if (-not [string]::IsNullOrEmpty($TrimmedKeyword) -and -not $SearchKeywordsList.Contains($TrimmedKeyword)) {
+								$SearchKeywordsList.Add($TrimmedKeyword)
+							}
 						}
 					}
+
+					# Always ensure the Product code is included/prepended per your rules
+					if (-not [string]::IsNullOrWhiteSpace($row.Product)) {
+						$ProductCode = $Row.Product.Trim()
+						if (-not $SearchKeywordsList.Contains($ProductCode)) {
+							$SearchKeywordsList.Add($ProductCode)
+						}
+					}
+					
+					if ($CleanName) {
+						# Split the name by spaces to iterate over each individual word
+						$Words = $CleanName -split '\s+'
+						
+						foreach ($CleanWord in $Words) {
+							$CleanWord = $CleanWord.Trim()
+							if ([string]::IsNullOrEmpty($CleanWord)) { continue }
+
+							# If the word is "tshirt" (case-insensitive), force it to "T-Shirt"
+							if ($CleanWord -ieq "tshirt") {
+								$CleanWord = "T-Shirt"
+							}
+
+							# Append this word to our keyword collection if it isn't a duplicate
+							if (-not $SearchKeywordsList.Contains($CleanWord)) {
+								$SearchKeywordsList.Add($CleanWord)
+							}
+						}
+					}
+					
+					$FinalSearchKeywords = $SearchKeywordsList -join ", "
+					
+					#Product-level entry
+					$NewRow = [PSCustomObject]@{					
+						"Item"                   = "Product"
+						"ID"                     = ""
+						"Name"                   = $CleanName
+						"Type"                   = "physical"
+						"SKU"                    = $row.Product
+						"Options"                = ""
+						"Inventory"              = "variant"
+						"Current Stock"          = 0
+						"Price"                  = $row.Price
+						"Search Keywords"        = $FinalSearchKeywords
+						"UPC/EAN"                = ""
+						"Free Shipping"          = $false
+						"Fixed Shipping Cost"    = 0
+						"Weight"                 = $Weight
+						"Width"                  = $Width
+						"Height"                 = $Height
+						"Depth"                  = $Depth
+						"Is Visible"             = $false
+						"Is Featured"            = $false
+						"Tax Class"              = $TaxClass
+						"Product Condition"      = "New"
+						"Show Product Condition" = $false
+						"Sort Order"             = 0
+					}
+					
+					$TransformedData.Add($NewRow)
+				} else {
+					# New Variant found
+					if (-not [string]::IsNullOrWhiteSpace($row.'Primary Barcode')) {	
+						if (-not [string]::IsNullOrWhiteSpace($row.Color)) {
+							$OptionsText = "Type=Rectangle|Name=Color|Value=$row.Color"
+						} else {
+							$OptionsText = ""
+						}
+						
+						if (-not [string]::IsNullOrWhiteSpace($row.Size)) {
+							$OptionsText = $OptionsText + "Type=Rectangle|Name=Color|Value=$row.Color"
+						}
+						
+						if (-not [string]::IsNullOrWhiteSpace($row.width)) {
+							$OptionsText = $OptionsText + "Type=Rectangle|Name=Color|Value=$row.Color"
+						}
+						
+						if ($row.Price -eq $LastPrice) {
+							$PriceText = ""
+						} else {
+							$PriceText = $row.Price
+						}
+						
+						# Variant-level entry
+						$NewRow = [PSCustomObject]@{					
+							"Item"                   = "Variant"
+							"ID"                     = ""
+							"Name"                   = ""
+							"Type"                   = ""
+							"SKU"                    = $row.'Primary Barcode'
+							"Options"                = $OptionsText
+							"Inventory"              = ""
+							"Current Stock"          = ""
+							"Price"                  = $PriceText
+							"Search Keywords"        = ""
+							"UPC/EAN"                = $row.UPC
+							"Free Shipping"          = $false
+							"Fixed Shipping Cost"    = ""
+							"Weight"                 = ""
+							"Width"                  = ""
+							"Height"                 = ""
+							"Depth"                  = ""
+							"Is Visible"             = ""
+							"Is Featured"            = ""
+							"Tax Class"              = ""
+							"Product Condition"      = ""
+							"Show Product Condition" = ""
+							"Sort Order"             = ""
+						}
+						
+						$TransformedData.Add($NewRow)
+					} else {
+						Write-Host "Variant expected on line $RowNum but no Primary Barcode found."
+					}
 				}
+			}
+			
+			if ($TransformedData.Count -gt 0) {
+				$OutputFile = $outputFolderPath + "\NewProducts" + $timestamp
+				Write-Host "Exporting $($TransformedData.Count) rows to $OutputFile..." -ForegroundColor Cyan
 				
-				$FinalSearchKeywords = $SearchKeywordsList -join ", "
+				# 3. Export the collection natively
+				$TransformedData | Export-Csv -Path $OutputFile -NoTypeInformation -Delimiter "," -Encoding utf8
 				
-				#Product-level entry
-				$NewRow = [PSCustomObject]@{					
-					"Item"                   = "Product"
-					"ID"                     = ""
-					"Name"                   = $CleanName
-					"Type"                   = "physical"
-					"SKU"                    = $row.Product
-					"Options"                = ""
-					"Inventory"              = "variant"
-					"Current Stock"          = 0
-					"Price"                  = $row.Price
-					"Search Keywords"        = $FinalSearchKeywords
-					"UPC/EAN"                = ""
-					"Free Shipping"          = $false
-					"Fixed Shipping Cost"    = 0
-					"Weight"                 = $Weight
-					"Width"                  = $Width
-					"Height"                 = $Height
-					"Depth"                  = $Depth
-					"Is Visible"             = $false
-					"Is Featured"            = $false
-					"Tax Class"              = $TaxClass
-					"Product Condition"      = "New"
-					"Show Product Condition" = $false
-					"Sort Order"             = 0
-				}
-				
-				$TransformedData.Add($NewRow)
+				Write-Host "Export complete! Your file is ready for BigCommerce." -ForegroundColor Green
+			} else {
+				Write-Warning "No rows were processed, so no file was generated."
 			}
 		}
 	}
