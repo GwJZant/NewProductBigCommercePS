@@ -113,7 +113,7 @@ do {
 			$TransformedData = [System.Collections.Generic.List[PSCustomObject]]::new()
 			
 			# Counter to track row number
-			$RowNum = 0
+			$RowNum = 1
 			
 			foreach ($row in $RowsToProcess) {
 				$Product = $row.Product
@@ -123,12 +123,8 @@ do {
 				if ($Product -ne $LastProduct) {
 					if ($LastProduct.Trim() -ne "") {
 						$LastProduct = $Product
-					} else {
-						Write-Host "There is a problem with your data.csv on line $RowNum. Aborting."
 					}
-				}
-				
-				if ($Product -ne $LastProduct) {
+					
 					if ($row."Primary Barcode".Trim() -ne "") {
 						Write-Host "New product found on a variant entry. Check line $RowNum. Aborting."
 						Pause
@@ -136,9 +132,10 @@ do {
 					}
 					
 					Write-Host "New product found. Inserting product entry then any variant entries if present."
-					Write-Host "Product: $Product, Name: $CleanName, Price: $row.Price, Item Type: $row.'Item Type'"
+					Write-Host "Product: $Product, Name: $CleanName, Price: $($row.Price), Item Type: $($row.'Item Type')"
 					$LastProduct = $Product
 					$LastPrice = $row.Price
+					$ItemType = $row.'Item Type'
 					
 					$TaxClass = 0
 					$Weight = 5
@@ -146,7 +143,7 @@ do {
 					$Height = 8
 					$Depth = 6
 					
-					REM Update Tax Class, Weight, and Dimensions for current product
+					# Update Tax Class, Weight, and Dimensions for current product
 					if ($ItemType -eq "1") { # Shoe
 						$TaxClass = 1
 						$Weight = 5
@@ -227,7 +224,7 @@ do {
 					$NewRow = [PSCustomObject]@{					
 						"Item"                   = "Product"
 						"ID"                     = ""
-						"Name"                   = $CleanName
+						"Name"                   = $row.Name.Trim()
 						"Type"                   = "physical"
 						"SKU"                    = $row.Product
 						"Options"                = ""
@@ -255,17 +252,17 @@ do {
 					# New Variant found
 					if (-not [string]::IsNullOrWhiteSpace($row.'Primary Barcode')) {	
 						if (-not [string]::IsNullOrWhiteSpace($row.Color)) {
-							$OptionsText = "Type=Rectangle|Name=Color|Value=$row.Color"
+							$OptionsText = "Type=Rectangle|Name=Color|Value=$($row.Color)"
 						} else {
 							$OptionsText = ""
 						}
 						
 						if (-not [string]::IsNullOrWhiteSpace($row.Size)) {
-							$OptionsText = $OptionsText + "Type=Rectangle|Name=Color|Value=$row.Color"
+							$OptionsText = $OptionsText + "Type=Rectangle|Name=Size|Value=$($row.Size)"
 						}
 						
 						if (-not [string]::IsNullOrWhiteSpace($row.width)) {
-							$OptionsText = $OptionsText + "Type=Rectangle|Name=Color|Value=$row.Color"
+							$OptionsText = $OptionsText + "Type=Rectangle|Name=Width|Value=$($row.width)"
 						}
 						
 						if ($row.Price -eq $LastPrice) {
@@ -309,7 +306,7 @@ do {
 			}
 			
 			if ($TransformedData.Count -gt 0) {
-				$OutputFile = $outputFolderPath + "\NewProducts" + $timestamp
+				$OutputFile = $outputFolderPath + "\NewProducts" + $timestamp + ".csv"
 				Write-Host "Exporting $($TransformedData.Count) rows to $OutputFile..." -ForegroundColor Cyan
 				
 				# 3. Export the collection natively
