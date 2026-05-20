@@ -31,9 +31,9 @@ if (Test-Path $configFile) {
 
 do {
 	Write-Host "1. Process data.csv" -ForegroundColor Cyan
-	Write-Host "2. Generate dataSQL.csv (Required: products.txt)" -ForegroundColor Cyan
+	Write-Host "2. Generate dataSQL.csv (Required: Input\products.txt)" -ForegroundColor Cyan
 	Write-Host "3. Process dataSQL.csv" -ForegroundColor Cyan
-	Write-Host "4. Generate ProductsNotInBigCommerce.csv (Required: BigCommerceProducts.txt)" -ForegroundColor Cyan
+	Write-Host "4. Generate ProductsNotInBigCommerce.csv" -ForegroundColor Cyan
 	Write-Host "5. Quit" -ForegroundColor Cyan
 	$selection = Read-Host "Enter your selection"
 	Write-Host ""
