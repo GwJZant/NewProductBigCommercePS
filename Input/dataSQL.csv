@@ -1,72 +1,39 @@
-"Product","Search Keywords","Name","Price","Item Type","UPC","Primary Barcode","Size","width","Color","Brand","PrefVendor","RowPriority"
-"30100057","","Earth Rated GrmWipe Unscnt 100ct","10.49","4","","","","","","""EARTH RATED""","""PFX""","1"
-"30100057","","","10.49","","870856000574","19324714","One Size","","","""EARTH RATED""","""PFX""","0"
-"30100094","","Earth Rated Unsctd Bag Dispenser","5.99","4","","","","","","""EARTH RATED""","""PFX""","1"
-"30100094","","","5.99","","870856000949","19321696","One Size","","","""EARTH RATED""","""PFX""","0"
-"30100143","","Earth Rated Poop Bag Unsctd Single","1","4","","","","","","""EARTH RATED""","""PFX""","1"
-"30100143","","","1","","30870856001435","19321695","One Size","","","""EARTH RATED""","""PFX""","0"
-"30100143","","","1","","870856001434","19321695","One Size","","","""EARTH RATED""","""PFX""","0"
-"30100192","","Earth Rated Dog Eye Wipes 60ct","11.99","4","","","","","","""EARTH RATED""","""PFX""","1"
-"30100192","","","11.99","","870856001922","19322592","One Size","","","""EARTH RATED""","""PFX""","0"
-"708000","","Earth Rated Poop Bags 8pk Scnt","9.49","4","","","","","","""EARTH RATED""","""PFX""","1"
-"708000","","","9.49","","870856000024","500102268600","8PK","","","""EARTH RATED""","""PFX""","0"
-"708002","","Earth Rated Handle Poop Bags","8.49","4","","","","","","""EARTH RATED""","""PFX""","1"
-"708002","","","8.49","","870856000055","500102268617","120","","","""EARTH RATED""","""PFX""","0"
-"26007","","EB Puppy Shampoo","22.99","4","","","","","","""EARTHBATH""","""PHIL""","1"
-"26007","","","22.99","","602644021313","500102843142","16OZ","","","""EARTHBATH""","""PHIL""","0"
-"26008","","EB Mediterranean Magic Shampoo","22.99","4","","","","","","""EARTHBATH""","""PHIL""","1"
-"26008","","","22.99","","602644020613","500102843104","16OZ","","","""EARTHBATH""","""PHIL""","0"
-"26015","","EB Frangrance Free Shampoo","22.99","4","","","","","","""EARTHBATH""","""PHIL""","1"
-"26015","","","22.99","","602644021818","500102843166","16OZ","","","""EARTHBATH""","""PHIL""","0"
-"26201","","EB Vanilla Almond Spritz","17.99","4","","","","","","""EARTHBATH""","""PHIL""","1"
-"26201","","","17.99","","602644022037","500102843241","8OZ","","","""EARTHBATH""","""PHIL""","0"
-"40054121","","Earthborn Sea Catch CT 4lb","15.99","4","","","","","","""EARTHBORN""","""PFX""","1"
-"40054121","","","15.99","","034846541212","19318393","One Size","","","""EARTHBORN""","""PFX""","0"
-"ESP1004369","","Esp Lux Remoist Conditioner 1 Gal","64.99","4","","","","","","""ESPREE""","""TICK""","1"
-"ESP1004369","","","64.99","","748406001039","19300815","One Size","","","""ESPREE""","""TICK""","0"
-"ESP1031878","","Esp D Bright White ShamCond Gal","57.99","4","","","","","","""ESPREE""","""TICK""","1"
-"ESP1031878","","","57.99","","748406001046","19300816","One Size","","","""ESPREE""","""TICK""","0"
-"ESP1031878","","","57.99","","748406003286","19300816","One Size","","","""ESPREE""","""TICK""","0"
-"ESP1031886","","Esp D Smpl Shed Sham+Cond Gal","70.99","4","","","","","","""ESPREE""","""TICK""","1"
-"ESP1031886","","","70.99","","748406000605","19300817","One Size","","","""ESPREE""","""TICK""","0"
-"ESP1031886","","","70.99","","748406004139","19300817","One Size","","","""ESPREE""","""TICK""","0"
-"077469","","Ethical Flppn Fish CT Toy 11.5""","13.99","4","","","","","","""ETHICAL PET""","""PHIL""","1"
-"077469","","","13.99","","077234521380","19310968","One Size","","","""ETHICAL PET""","""PHIL""","0"
-"100045","","Ethical Two Tone Cat Dish 6""","8.99","4","","","","","","""ETHICAL PET""","""PHIL""","1"
-"100045","","","8.99","","077234546994","19310974","One Size","","","""ETHICAL PET""","""PHIL""","0"
-"100107","","Ethical Two Tone Dog Dish 5""","9.99","4","","","","","","""ETHICAL PET""","""PHIL""","1"
-"100107","","","9.99","","077234547007","19310975","One Size","","","""ETHICAL PET""","""PHIL""","0"
-"100235","","Ethical I Love Dogs Dish 7""","12.99","4","","","","","","""ETHICAL PET""","""PHIL""","1"
-"100235","","","12.99","","077234546987","19310973","One Size","","","""ETHICAL PET""","""PHIL""","0"
-"58492","","Holiday Llama Plaid Hat","13.99","4","","","","","","""ETHICAL PET""","""PHIL""","1"
-"58492","","","13.99","","077234584927","19316252","One Size","","","""ETHICAL PET""","""PHIL""","0"
-"691143","","Snuggler Bones/Paws Blanket 30x40","9.99","4","","","","","","""ETHICAL PET""","""BRADL""","1"
-"691143","","","9.99","","077234500613","19311200","One Size","","TAN","""ETHICAL PET""","""BRADL""","0"
-"691144","","Snuggler Bones/Paws Blanket 40x60","14.99","4","","","","","","""ETHICAL PET""","""BRADL""","1"
-"691144","","","14.99","","077234500620","19311201","One Size","","TAN","""ETHICAL PET""","""BRADL""","0"
-"773630","","Ethical Hi-Rise Sngl Diner 2qt","29.99","4","","","","","","""ETHICAL PET""","""PHIL""","1"
-"773630","","","29.99","","077234058572","19310970","One Size","","","""ETHICAL PET""","""PHIL""","0"
-"41400103","","Etta Says Mega Buffalo Chew","9.49","4","","","","","","""ETTA SAYS""","""PFX""","1"
-"41400103","","","9.49","","853994001030","500102605702","10IN","","","""ETTA SAYS""","""PFX""","0"
-"41400132","","Etta Says Crunchy Chew Duck 7","2.49","4","","","","","","""ETTA SAYS""","""PFX""","1"
-"41400132","","","2.49","","853994001917","500102711724","7IN","","","""ETTA SAYS""","""PFX""","0"
-"41400151","","Etta Says Crunchy Chew Deer 7","2.49","4","","","","","","""ETTA SAYS""","""PFX""","1"
-"41400151","","","2.49","","853994001337","500102711731","7IN","","","""ETTA SAYS""","""PFX""","0"
-"41400153","","Etta Says Crunchy Chew Rabb 7","2.49","4","","","","","","""ETTA SAYS""","""PFX""","1"
-"41400153","","","2.49","","853994001344","500102711748","7IN","","","""ETTA SAYS""","""PFX""","0"
-"41400630","","Etta Says Bully Lamb Chew 7in","3.39","4","","","","","","""ETTA SAYS""","""PFX""","1"
-"41400630","","","3.39","","853662006299","500102711663","7IN","","","""ETTA SAYS""","""PFX""","0"
-"41400636","","Etta Says Bully Tky Chew 7in","3.39","4","","","","","","""ETTA SAYS""","""PFX""","1"
-"41400636","","","3.39","","853662006350","500102711687","7IN","","","""ETTA SAYS""","""PFX""","0"
-"41400645","","Etta Says Select Bacon Chew","3.39","4","","","","","","""ETTA SAYS""","""PFX""","1"
-"41400645","","","3.39","","853662006442","500102711717","7IN","","","""ETTA SAYS""","""PFX""","0"
-"41400796","","Etta Says Yum Stick Pork","2.79","4","","","","","","""ETTA SAYS""","""PFX""","1"
-"41400796","","","2.79","","850089007953","500103106253","One Size","","","""ETTA SAYS""","""PFX""","0"
-"41400799","","Etta Says Yum Stick Beef","2.79","4","","","","","","""ETTA SAYS""","""PFX""","1"
-"41400799","","","2.79","","850089007984","500103106260","One Size","","","""ETTA SAYS""","""PFX""","0"
-"777157","","Evan 100% Buffalo Dog + Cat 6o","2.79","4","","","","","","""EVANGER`S""","""PHIL""","1"
-"777157","","","2.79","","77627311048","500102876522","6OZ","","","""EVANGER`S""","""PHIL""","0"
-"114896","","FreshStep OdorShield Scnt Litter 22","18.99","4","","","","","","""EVERCLEAN""","""PHIL""","1"
-"114896","","","18.99","","044600607672","19325460","One Size","","","""EVERCLEAN""","""PHIL""","0"
-"377635","","FS CleanPaw Multi Fbrz 22lb","21.99","4","","","","","","""EVERCLEAN""","""BRADL""","1"
-"377635","","","21.99","","044600607580","500102943927","22.5LB","","","""EVERCLEAN""","""BRADL""","0"
+Product,Search Keywords,Name,Price,Item Type,UPC,Primary Barcode,Size,width,Color,Brand,PrefVendor,RowPriority
+40510427,"40510423, 40510410",Fromm Heartland Gold Grain Free Puppy Food,17.99,4,,,,,,"""FROMM FAMILY""","""PFX""",1
+40510427,,,69.99,,,500102804525,26LB,,,"""FROMM FAMILY""","""PFX""",0
+40510427,,,44.99,,,500102835413,12LB,,,"""FROMM FAMILY""","""PFX""",0
+40510427,,,17.99,,,500102813367,4LB,,,"""FROMM FAMILY""","""PFX""",0
+40511235,,Fromm 4Star Lamb Pate Cat Food,2.58,4,,,,,,"""FROMM FAMILY""","""PFX""",1
+40511235,,,2.58,,,500102849496,5.5OZ,,,"""FROMM FAMILY""","""PFX""",0
+40511236,,Fromm 4Star Turkey Cat Food,2.58,4,,,,,,"""FROMM FAMILY""","""PFX""",1
+40511236,,,2.58,,,500102849489,5.5OZ,,,"""FROMM FAMILY""","""PFX""",0
+40511238,,Fromm 4Star Beef Cat Food,2.58,4,,,,,,"""FROMM FAMILY""","""PFX""",1
+40511238,,,2.58,,,500102849472,5.5OZ,,,"""FROMM FAMILY""","""PFX""",0
+40511240,,Fromm 4Star Chicken & Duck Cat Food,2.58,4,,,,,,"""FROMM FAMILY""","""PFX""",1
+40511240,,,2.58,,,500102849465,5.5OZ,,,"""FROMM FAMILY""","""PFX""",0
+40511242,,Fromm 4Star Chicken & Salmon Cat Food,2.58,4,,,,,,"""FROMM FAMILY""","""PFX""",1
+40511242,,,2.58,,,500102810595,5.5OZ,,,"""FROMM FAMILY""","""PFX""",0
+40511246,,Fromm 4Star Salmon & Tuna Cat Food,2.58,4,,,,,,"""FROMM FAMILY""","""PFX""",1
+40511246,,,2.58,,,500102849458,5.5OZ,,,"""FROMM FAMILY""","""PFX""",0
+727013,"727012, 727011",Fromm 4Star Grain Free Hasen Duckenpfeffer Dog Food,18.99,4,,,,,,"""FROMM FAMILY""","""TICK""",1
+727013,,,89.99,,,500102715883,26LB,,,"""FROMM FAMILY""","""TICK""",0
+727013,,,48.99,,,500102715876,12LB,,,"""FROMM FAMILY""","""TICK""",0
+727013,,,18.99,,,500102715890,4LB,,,"""FROMM FAMILY""","""TICK""",0
+FR10806,"FR10803, FR10801",Fromm 4Star Trout & Whitefish Dog Food,18.99,4,,,,,,"""FROMM FAMILY""","""TICK""",1
+FR10806,,,69.99,,,19294924,26LB,,,"""FROMM FAMILY""","""TICK""",0
+FR10806,,,36.99,,,19294923,12LB,,,"""FROMM FAMILY""","""TICK""",0
+FR10806,,,18.99,,,19294922,4LB,,,"""FROMM FAMILY""","""TICK""",0
+FR11353,,PurrSnickitty Tuna & Shrimp Entree Pate Cat Food,2.19,4,,,,,,"""FROMM FAMILY""","""TICK""",1
+FR11353,,,2.19,,72705113521,19325361,3OZ,,,"""FROMM FAMILY""","""TICK""",0
+FR11740,,Fromm 4Star Grain Free Chicken au Frommage Cat Food,20.99,4,,,,,,"""FROMM FAMILY""","""TICK""",1
+FR11740,,,20.99,,72705117406,19291427,4LB,,,"""FROMM FAMILY""","""TICK""",0
+FR11915,,Fromm Grain Free Beef & Sweet Potato Pate Dog Food,3.68,4,,,,,,"""FROMM FAMILY""","""TICK""",1
+FR11915,,,3.68,,72705119141,19324303,12.2OZ,,,"""FROMM FAMILY""","""TICK""",0
+FR11917,,Fromm Grain Free Lamb & Sweet Potato Pate Dog Food,3.68,4,,,,,,"""FROMM FAMILY""","""TICK""",1
+FR11917,,,3.68,,72705119165,19324305,12.2OZ,,,"""FROMM FAMILY""","""TICK""",0
+FR11923,,Fromm Chicken & Rice Pate Dog Food,2.98,4,,,,,,"""FROMM FAMILY""","""TICK""",1
+FR11923,,,2.98,,72705119226,19324304,12.2OZ,,,"""FROMM FAMILY""","""TICK""",0
+FR13321,,Fromm Gold Adult Pate Cat Food,2.09,4,,,,,,"""FROMM FAMILY""","""TICK""",1
+FR13321,,,2.09,,72705133208,19318715,5.5OZ,,,"""FROMM FAMILY""","""TICK""",0
+FR13501-CHUB,,Fromm Bonnihill Farms Gently Cooked BeefiBowls Dog Food,12.49,4,,,,,,"""FROMM FAMILY""","""TICK""",1
+FR13501-CHUB,,,12.49,,72705135004,72705135004,16OZ,,,"""FROMM FAMILY""","""TICK""",0

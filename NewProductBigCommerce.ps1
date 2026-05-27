@@ -1,3 +1,4 @@
+#requires -Version 7.0
 # Load the configuration file
 $configFile = "$PSScriptRoot\config.json"
 $version = "0.5.0"
@@ -86,6 +87,8 @@ do {
 			} catch {
 				Write-Host "Error: $_" -ForegroundColor DarkRed
 			}
+			
+			Write-Host "Done."  -ForegroundColor Cyan
 		}
 		"3" {
 			$FileToProcess = $DataSQL
@@ -111,19 +114,16 @@ do {
 			$RowsToProcess = Import-Csv -Path $FileToProcess
 			$TransformedData = [System.Collections.Generic.List[PSCustomObject]]::new()
 			
-			# Counter to track row number
+			# Initialize variables
 			$RowNum = 1
+			$LastProduct = ""
 			
 			foreach ($row in $RowsToProcess) {
 				$Product = $row.Product
-				$CleanName = $row.Name.Trim()
+				$CleanName = $row.Name.Trim()				
 				$RowNum += 1
 				
-				if ($Product -ne $LastProduct) {
-					if ($LastProduct.Trim() -ne "") {
-						$LastProduct = $Product
-					}
-					
+				if ($Product -ne $LastProduct) {			
 					if ($row."Primary Barcode".Trim() -ne "") {
 						Write-Host "New product found on a variant entry. Check line $RowNum. Aborting."
 						Pause
@@ -309,9 +309,10 @@ do {
 				Write-Host "Exporting $($TransformedData.Count) rows to $OutputFile..." -ForegroundColor Cyan
 				
 				# 3. Export the collection natively
-				$TransformedData | Export-Csv -Path $OutputFile -NoTypeInformation -Delimiter "," -Encoding utf8
+				$TransformedData | Export-Csv -Path $OutputFile -NoTypeInformation -UseQuotes AsNeeded -Delimiter "," -Encoding utf8
 				
 				Write-Host "Export complete! Your file is ready for BigCommerce." -ForegroundColor Green
+				Write-Host ""
 			} else {
 				Write-Warning "No rows were processed, so no file was generated."
 			}
@@ -319,5 +320,4 @@ do {
 	}
 } until ($selection -eq "5")
 
-Pause
 exit
