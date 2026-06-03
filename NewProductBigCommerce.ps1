@@ -18,7 +18,6 @@ if (-not (Test-Path -Path "$PSScriptRoot\tmp")) {
 # Assign file to process, relevant for SQL import
 $FileToProcess = "Input\data.csv"
 $DataSQL = "Input\dataSQL.csv"
-$timestamp = Get-Date -Format "yyyy-MM-dd_HHmm"
 $outputFolderPath = "$PSScriptRoot\Output\"
 
 # Load the config file and ensure it exists
@@ -88,7 +87,7 @@ do {
 				Write-Host "Error: $_" -ForegroundColor DarkRed
 			}
 			
-			Write-Host "Done."  -ForegroundColor Cyan
+			Write-Host "Input\dataSQL.csv has been generated."  -ForegroundColor Green
 		}
 		"3" {
 			$FileToProcess = $DataSQL
@@ -106,7 +105,9 @@ do {
         }
 	}
 	
-	if ($selection -eq "1" -or $selection -eq "3") {		
+	if ($selection -eq "1" -or $selection -eq "3") {
+		$timestamp = Get-Date -Format "yyyy-MM-dd_HHmm"
+		
 		if (Test-Path $FileToProcess) {
 			Write-Host "Processing $FileToProcess..."
 			Write-Host ""
