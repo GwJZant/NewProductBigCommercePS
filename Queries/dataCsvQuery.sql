@@ -13,6 +13,7 @@ WITH RankedSkuRPT AS (SELECT skurpt.STYLE AS Product,
         (CASE 
             WHEN skurpt.TYP LIKE '%SOCKS%' OR skurpt.TYP LIKE '%INSOL%' THEN '2'
             WHEN skurpt.OF2 = 'FOOT' THEN '1'
+            WHEN skurpt.TYP LIKE 'BOTDEN%' OR skurpt.TYP LIKE 'BOTND%' THEN '5'
             WHEN skurpt.OF2 = 'APPAR' THEN '3'
             WHEN skurpt.OF2 = 'PET' THEN '4'
             ELSE '4'

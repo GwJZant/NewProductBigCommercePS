@@ -156,12 +156,12 @@ do {
 						$Width = 5
 						$Height = 3
 						$Depth = 1
-					} elseif ($ItemType -eq "3") { # Apparel
+					} elseif ($ItemType -eq "3" -or $ItemType -eq "5") { # Apparel
 						$TaxClass = 1
 						$Weight = 2
-						$Width = 7
-						$Height = 7
-						$Depth = 2
+						$Width = 15
+						$Height = 13
+						$Depth = 3
 					} elseif ($ItemType -eq "4") { # Other (pet supplies)
 						$ContainsPetItem = 1
 					} else {
@@ -258,11 +258,19 @@ do {
 						}
 						
 						if (-not [string]::IsNullOrWhiteSpace($row.Size)) {
-							$OptionsText = $OptionsText + "Type=Rectangle|Name=Size|Value=$($row.Size)"
+							if ($ItemType -eq "5") {
+								$OptionsText = $OptionsText + "Type=Rectangle|Name=Waist|Value=$($row.Size)"
+							} else {
+								$OptionsText = $OptionsText + "Type=Rectangle|Name=Size|Value=$($row.Size)"
+							}
 						}
 						
 						if (-not [string]::IsNullOrWhiteSpace($row.width)) {
-							$OptionsText = $OptionsText + "Type=Rectangle|Name=Width|Value=$($row.width)"
+							if ($ItemType -eq "5") {
+								$OptionsText = $OptionsText + "Type=Rectangle|Name=Length|Value=$($row.width)"
+							} else {
+								$OptionsText = $OptionsText + "Type=Rectangle|Name=Width|Value=$($row.width)"
+							}
 						}
 						
 						if ($row.Price -eq $LastPrice) {
